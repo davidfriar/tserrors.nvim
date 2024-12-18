@@ -1,0 +1,27 @@
+---@meta
+
+---@class (exact) tserrors.Options
+---@field file_type string 'Fake' file type to use for typsecript errors
+---@field markdown_overrides MarkdownOverrides Overrides for the default rendering of markdown
+---@field win_open_opts WindowOpenOptions Options to control the window
+---@field window_options WindowOptions Vim window options
+---@field buffer_options BufferOptions Vim window options
+---@field padding number  Window padding (left and right)
+---@field max_width number  Max width of the popup window
+---@field max_height number  Max height of the popup window
+-- -
+---
+---@class MarkdownOverrides Overrides that will be added to your configuration for render-markdown.nvim. See the documentation for render-markdown.nvim
+---@class WindowOpenOptions Options that will be passed to nvim_open_win. See https://neovim.io/doc/user/api.html#nvim_open_win()
+---@class WindowOptions Window options. See https://neovim.io/doc/user/lua.html#vim.wo
+---@class BufferOptions Buffer options. See https://neovim.io/doc/user/lua.html#vim.bo
+
+---@class tserrors.UserOptions
+---@field file_type? string 'Fake' file type to use for typsecript errors
+---@field markdown_overrides? MarkdownOverrides Overrides for the default rendering of markdown
+---@field win_open_opts? WindowOpenOptions Options to control the window
+---@field window_options? WindowOptions Vim window options
+---@field buffer_options? BufferOptions Vim window options
+---@field padding number?  Window padding (left and right)
+---@field max_width number?  Max width of the popup window
+---@field max_height number?  Max height of the popup window
