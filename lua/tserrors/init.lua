@@ -58,7 +58,8 @@ function M.get_diagnostics_for_cursor()
   local diagnostics = M.get_diagnostics_for_line()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return vim.tbl_filter(function(diagnostic)
-    local res = diagnostic.lnum == line - 1 and col >= diagnostic.col and col <= diagnostic.end_col -- TODO: this isn't correct - handle different linenumbers
+    local res = diagnostic.lnum == line - 1 and col >= diagnostic.col and
+    col <= diagnostic.end_col                                                                       -- TODO: this isn't correct - handle different linenumbers
     return res
   end, diagnostics)
 end
@@ -91,6 +92,7 @@ function M.diagnostic_to_json(diagnostic)
   return vim.json.encode(lspDiagnostics)
 end
 
+--- Show a nicely formatted version of the diagnostic for the current cursor position in a popup window
 function M.show_diagnostic_for_cursor()
   local diagnostics = M.get_diagnostics_for_cursor()
   if diagnostics and #diagnostics > 0 then
@@ -99,6 +101,7 @@ function M.show_diagnostic_for_cursor()
   end
 end
 
+--- Close the popup window if it is open.
 function M.close()
   if M.is_open() then
     vim.api.nvim_win_close(M.window, true)
@@ -108,6 +111,7 @@ function M.close()
   end
 end
 
+--- Close the popup window if it is already open, otherwise call show_diagnostic_for_cursor in order to show the diagnostic for the current cursor position.
 function M.toggle()
   if M.is_open() then
     M.close()
@@ -132,14 +136,19 @@ local function scroll(down)
   end
 end
 
+--- Scroll the popup window down by half a screen
 function M.scroll_down()
   scroll(true)
 end
 
+--- Scroll the popup window up by half a screen
 function M.scroll_up()
   scroll(false)
 end
 
+--- Move the focus into the popup window. Useful if you need for example
+--- to copy the contents of the window, which with the default configuration
+--- is not a focusable window.
 function M.focus()
   if M.is_open() then
     vim.api.nvim_set_current_win(M.window)
@@ -195,6 +204,11 @@ function M.show_diagnostic(text)
   end
 end
 
+--- Configure the plugin with your custom options. Set MUST be called for the plugin to work.
+--- Either call it explicitly, or, if you are using Lazy.nvim, provide a value for 'opts' in
+--- your plugin configuration and Lazy will call it for you. Note that '{}' is a valid value
+--- for setup, if you don't want to cusonise anything.
+--- @param options tserrors.UserOptions
 function M.setup(options)
   local config = require("tserrors.config")
   config.setup(options)
