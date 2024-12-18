@@ -23,7 +23,7 @@ end
 
 return {
   check = function()
-    vim.health.start("TS Errors")
+    vim.health.start("tserrors")
     check_pretty_ts_errors_markdown_installed()
     check_render_markdown_installed()
   end,
