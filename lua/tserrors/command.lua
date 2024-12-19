@@ -30,11 +30,11 @@ return {
       desc = "Show pretty Typescript errors",
       complete = function(arg_lead, _, _)
         return vim
-          .iter(sub_cmds_keys)
-          :filter(function(sub_cmd)
-            return sub_cmd:find(arg_lead) ~= nil
-          end)
-          :totable()
+            .iter(sub_cmds_keys)
+            :filter(function(sub_cmd)
+              return sub_cmd:find(arg_lead) ~= nil
+            end)
+            :totable()
       end,
     })
   end,
