@@ -47,20 +47,13 @@ local function calculate_dimensions(text_lines, max_width, max_height)
   return math.min(width, max_width), math.min(height, max_height)
 end
 
-function M.get_diagnostics_for_line()
-  local buf = vim.api.nvim_get_current_buf()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local diagnostics = vim.diagnostic.get(buf, { lnum = line - 1 })
-  return diagnostics
-end
-
 function M.get_diagnostics_for_cursor()
-  local diagnostics = M.get_diagnostics_for_line()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return vim.tbl_filter(function(diagnostic)
-    local res = diagnostic.lnum == line - 1 and col >= diagnostic.col and
-    col <= diagnostic.end_col                                                                       -- TODO: this isn't correct - handle different linenumbers
-    return res
+  local lnum = line - 1
+  local diagnostics = vim.diagnostic.get(0)
+  return vim.tbl_filter(function(d)
+    return ((d.lnum == lnum and d.col <= col) or d.lnum < lnum)
+      and ((d.end_lnum == lnum and d.end_col >= col) or d.end_lnum > lnum)
   end, diagnostics)
 end
 
