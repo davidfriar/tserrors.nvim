@@ -67,9 +67,12 @@ end
 function M.convert_to_mark_down(diagnostic)
   local jsonString = M.diagnostic_to_json(diagnostic)
   local cmd = { "pretty-ts-errors-markdown", "-i", jsonString }
-  local result = vim.system(cmd, { text = true }):wait()
-  return result["stdout"]
-  -- TODO: handle errors (fail to invoke/not installed and stderr not empty)
+  local ok, result = pcall(vim.system, cmd, { text = true })
+  if not ok then
+    vim.notify("Call to pretty-ts-errors-markdown failed.", vim.log.levels.ERROR)
+    return
+  end
+  return result:wait()["stdout"]
 end
 
 function M.diagnostic_to_json(diagnostic)
