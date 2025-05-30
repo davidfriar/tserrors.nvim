@@ -20,7 +20,6 @@ local function configure_render_markdown()
   local state = require("render-markdown.state")
   state.file_types[#state.file_types + 1] = M.config.file_type
   state.config.overrides.filetype[M.config.file_type] = M.config.markdown_overrides
-  state.invalidate_cache()
   state.validate()
 end
 
